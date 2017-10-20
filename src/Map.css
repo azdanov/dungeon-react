@@ -1,0 +1,39 @@
+.app {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.row {
+  color: rgba(104, 159, 56, 1);
+  display: flex;
+  justify-content: center;
+}
+
+.flex-container {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cell {
+  text-align: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  outline: 1px solid rgba(97, 97, 97, 1);
+  background: rgba(97, 97, 97, 0.4);
+}
+
+.wall {
+  outline: none;
+  /* body has same color as walls */
+  background: transparent;
+}
+
+.room {
+  outline: 1px solid rgba(97, 97, 97, 0.55);
+  background: rgba(189, 195, 199, 1);
+}
+
+.bridge {
+  background: rgba(117, 117, 117, 1);
+}
