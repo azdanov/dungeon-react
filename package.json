@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "core-js": "^2.5.1",
+    "easystarjs": "^0.4.1",
     "lodash": "^4.17.4",
     "random-dungeon-generator": "^1.0.32",
     "react": "^16.0.0",

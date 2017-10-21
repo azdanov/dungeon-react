@@ -3,7 +3,7 @@
 import React from 'react';
 
 import './Map.css';
-import dungeon from './utils/DungeonMaster';
+import DungeonMaster from './dungeon/DungeonMaster';
 
 export function getClassName(cell?: string | number) {
   const className = 'cell';
@@ -32,9 +32,11 @@ export function getClassName(cell?: string | number) {
   }
 }
 
+const dungeonMaster = new DungeonMaster();
+
 const Map = () => (
   <div className="app">
-    {dungeon.map((row, rowIndex) => (
+    {dungeonMaster.mapKeeper.dungeon.map((row, rowIndex) => (
       <div className="row" key={rowIndex}>
         {row.map((cell, cellIndex) => {
           const className = getClassName(cell);
