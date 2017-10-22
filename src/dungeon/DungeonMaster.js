@@ -5,17 +5,11 @@ import EntitiesMaster from './entities/EntitiesMaster';
 // TODO: Place exit point
 
 class DungeonMaster {
-  mapKeeper: {
-    dungeon: Array<Array<number | string>>,
-    width: number,
-    height: number,
-    minRoomSize: number,
-    maxRoomSize: number,
-  };
+  mapKeeper: MapKeeper;
   entitiesMaster: Object;
+
   constructor() {
     this.mapKeeper = new MapKeeper();
-    console.log(this.mapKeeper.lastRoom);
     this.entitiesMaster = new EntitiesMaster();
   }
 }
