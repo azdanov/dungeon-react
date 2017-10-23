@@ -1,7 +1,7 @@
 // @flow
 
 import Creature from './Creature';
-import direction from '../../map/moveOffsets';
+import direction from '../../map/directions';
 
 describe('Creature', () => {
   let creature;
@@ -52,13 +52,19 @@ describe('Creature', () => {
     });
     it('moves east', () => {
       creature.move(direction.east);
-      expect(creature.location).toHaveProperty('x', 0);
-      expect(creature.location).toHaveProperty('y', 1);
+
+      expect(creature.prevLocation).toHaveProperty('x', 1);
+      expect(creature.prevLocation).toHaveProperty('y', 1);
     });
     it('moves west', () => {
       creature.move(direction.west);
-      expect(creature.location).toHaveProperty('x', 2);
+      expect(creature.location).toHaveProperty('x', 0);
       expect(creature.location).toHaveProperty('y', 1);
+    });
+    it('saves previous location', () => {
+      creature.move(direction.north);
+      expect(creature.prevLocation).toHaveProperty('x', 1);
+      expect(creature.prevLocation).toHaveProperty('y', 1);
     });
   });
 });

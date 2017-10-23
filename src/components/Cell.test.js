@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Cell, { getClassName, pickSymbol } from './Cell';
-import { PLAYER_SYMBOL } from '../dungeon/map/entitySymbols';
+import { PLAYER_S } from '../dungeon/map/mapSymbols';
 
 describe('Cell', () => {
   describe('getClassName()', () => {
@@ -31,7 +31,7 @@ describe('Cell', () => {
 
   describe('pickSymbol()', () => {
     it('pick symbol for player', () => {
-      expect(pickSymbol(PLAYER_SYMBOL)).toBe('☺');
+      expect(pickSymbol(PLAYER_S)).toBe('☺');
     });
   });
 

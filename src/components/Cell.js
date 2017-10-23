@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { PLAYER_SYMBOL } from '../dungeon/map/entitySymbols';
+import { PLAYER_S } from '../dungeon/map/mapSymbols';
 import './Cell.css';
 
 export function getClassName(cell?: string | number) {
@@ -13,7 +13,7 @@ export function getClassName(cell?: string | number) {
     case 1: {
       return `${className} wall`;
     }
-    case PLAYER_SYMBOL: {
+    case PLAYER_S: {
       return `${className} player`;
     }
     case 'E': {
@@ -33,7 +33,7 @@ export function getClassName(cell?: string | number) {
 
 export function pickSymbol(cell: number | string) {
   switch (cell) {
-    case PLAYER_SYMBOL:
+    case PLAYER_S:
       return '☺';
     default:
       return cell;

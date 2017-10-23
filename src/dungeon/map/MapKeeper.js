@@ -1,12 +1,14 @@
 // @flow
 
 import { NewDungeon } from 'random-dungeon-generator';
+import { cloneDeep } from 'lodash';
 import type PlayerType from '../entities/creatures/Player';
 import type EnemyType from '../entities/creatures/Enemy';
-import { PLAYER_SYMBOL } from './entitySymbols';
+import { PLAYER_S } from './mapSymbols';
 
 class MapKeeper {
   dungeon: Array<Array<number | string>>;
+  initialDungeon: Array<Array<number | string>>;
   width: number;
   height: number;
   minRoomSize: number;
@@ -37,6 +39,8 @@ class MapKeeper {
       minRoomSize: this.minRoomSize,
       maxRoomSize: this.maxRoomSize,
     });
+
+    this.initialDungeon = cloneDeep(this.dungeon);
 
     this.rooms = this.findRooms();
   }
@@ -101,9 +105,21 @@ class MapKeeper {
 
   updateMap(entities: { player: ?PlayerType, enemies: ?Array<EnemyType> }) {
     if (entities.player) {
-      const { x, y } = entities.player.location;
-      this.dungeon[y][x] = PLAYER_SYMBOL;
+      const { x: cX, y: cY } = entities.player.location;
+      const { x: pX, y: pY } = entities.player.prevLocation;
+      this.dungeon[pY][pX] = this.initialDungeon[pY][pX];
+      this.dungeon[cY][cX] = PLAYER_S;
     }
+  }
+
+  isOccupied(
+    creature: PlayerType | EnemyType,
+    direction: { x: number, y: number },
+  ): number | string {
+    const { x: xCreature, y: yCreature } = creature.location;
+    const { x: xOffset, y: yOffset } = direction;
+    console.log(this.dungeon[yCreature + yOffset][xCreature + xOffset]);
+    return this.dungeon[yCreature + yOffset][xCreature + xOffset];
   }
 }
 

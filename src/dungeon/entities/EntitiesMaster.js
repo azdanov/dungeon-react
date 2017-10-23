@@ -2,7 +2,7 @@
 import { random, head } from 'lodash';
 import Player from './creatures/Player';
 import Enemy from './creatures/Enemy';
-import { PLAYER } from './entityTypes';
+import { PLAYER_S } from '../map/mapSymbols';
 
 class EntitiesMaster {
   rooms: { [number]: { x: number, y: number, width: number, height: number } };
@@ -24,8 +24,8 @@ class EntitiesMaster {
     this.createPlayer();
   }
   createPlayer() {
-    this.entities.player = new Player('Player', PLAYER, 100, 10);
-    this.pickLocation(PLAYER);
+    this.entities.player = new Player('Player', PLAYER_S, 100, 10);
+    this.pickLocation(PLAYER_S);
   }
   pickLocation(entityType: string) {
     const roomNames = Object.keys(this.rooms);
@@ -36,7 +36,7 @@ class EntitiesMaster {
     let x;
     let y;
     switch (entityType) {
-      case PLAYER:
+      case PLAYER_S:
         x = random(
           this.rooms[firstRoom].x,
           this.rooms[firstRoom].x + this.rooms[firstRoom].width - 1,
@@ -45,7 +45,10 @@ class EntitiesMaster {
           this.rooms[firstRoom].y,
           this.rooms[firstRoom].y + this.rooms[firstRoom].height - 1,
         );
-        if (this.entities.player) this.entities.player.location = { x, y };
+        if (this.entities.player) {
+          this.entities.player.location = { x, y };
+          this.entities.player.prevLocation = { x, y };
+        }
         break;
       default:
         break;

@@ -6512,6 +6512,10 @@ walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
+wally-fov@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/wally-fov/-/wally-fov-0.1.1.tgz#8793e699ba4c0ea399833055e48cca40936c8248"
+
 watch@~0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/watch/-/watch-0.10.0.tgz#77798b2da0f9910d595f1ace5b0c2258521f21dc"

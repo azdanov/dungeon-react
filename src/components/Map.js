@@ -4,15 +4,14 @@ import React from 'react';
 
 import './Map.css';
 import Cell from './Cell';
-import type DungeonMaster from '../dungeon/DungeonMaster';
 
-const Map = (props: { dungeonMaster: DungeonMaster }) => (
+const Map = (props: { dungeon: Array<Array<number | string>> }) => (
   <div>
-    {props.dungeonMaster.mapKeeper.dungeon.map((row, rowIndex) => (
+    {props.dungeon.map((row, rowIndex) => (
       <div className="row" key={rowIndex}>
         {row.map((cell, cellIndex) => (
           <Cell
-            key={`${cellIndex}${rowIndex}`}
+            key={cellIndex}
             cell={cell}
             rowIndex={rowIndex}
             cellIndex={cellIndex}
