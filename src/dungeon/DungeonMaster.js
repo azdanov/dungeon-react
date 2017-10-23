@@ -10,7 +10,8 @@ class DungeonMaster {
 
   constructor() {
     this.mapKeeper = new MapKeeper();
-    this.entitiesMaster = new EntitiesMaster();
+    this.entitiesMaster = new EntitiesMaster(this.mapKeeper.rooms);
+    this.mapKeeper.updateMap(this.entitiesMaster.entities);
   }
 }
 

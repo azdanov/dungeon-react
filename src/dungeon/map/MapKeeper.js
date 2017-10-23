@@ -1,6 +1,9 @@
 // @flow
 
 import { NewDungeon } from 'random-dungeon-generator';
+import type PlayerType from '../entities/creatures/Player';
+import type EnemyType from '../entities/creatures/Enemy';
+import { PLAYER_SYMBOL } from './entitySymbols';
 
 class MapKeeper {
   dungeon: Array<Array<number | string>>;
@@ -94,6 +97,13 @@ class MapKeeper {
       });
     });
     return rooms;
+  }
+
+  updateMap(entities: { player: ?PlayerType, enemies: ?Array<EnemyType> }) {
+    if (entities.player) {
+      const { x, y } = entities.player.location;
+      this.dungeon[y][x] = PLAYER_SYMBOL;
+    }
   }
 }
 

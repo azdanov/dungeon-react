@@ -1,7 +1,7 @@
 // @flow
 import NewDungeon from 'random-dungeon-generator';
 import MapKeeper from './MapKeeper';
-import dungeon from './__mocks__/dungeon';
+import dungeon from '../__mocks__/dungeon';
 
 jest.mock('random-dungeon-generator');
 
@@ -20,7 +20,7 @@ describe('MapKeeper', () => {
     expect(newDungeonMock).toHaveBeenCalled();
   });
   it('has a dungeon Array', () => {
-    expect(Array.isArray(mapKeeper.dungeon)).toBeTruthy();
+    expect(mapKeeper.dungeon.constructor).toBe(Array);
   });
 
   describe('findRooms()', () => {

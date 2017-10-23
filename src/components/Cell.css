@@ -1,0 +1,29 @@
+.cell {
+  background: rgba(97, 97, 97, 0.4);
+  height: 1.5rem;
+  outline: 1px solid rgba(97, 97, 97, 1);
+  text-align: center;
+  width: 1.5rem;
+}
+
+.wall {
+  background: transparent;
+  /* body has same color as walls */
+  outline: none;
+}
+
+.room {
+  background: rgba(189, 195, 199, 1);
+  outline: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.bridge {
+  background: rgba(117, 117, 117, 1);
+}
+
+.player {
+  background: rgba(189, 195, 199, 1);
+  color: rgba(255, 111, 0, 1);
+  line-height: 20px;
+  outline: 1px solid rgba(97, 97, 97, 0.55);
+}
