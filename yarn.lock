@@ -4352,6 +4352,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+mrpas@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/mrpas/-/mrpas-1.2.1.tgz#7dc402bb103c4c8d836ac689e6c0a0493661c03e"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

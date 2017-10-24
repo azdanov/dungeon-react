@@ -3,8 +3,14 @@
 import React from 'react';
 import './Cell.css';
 
-const Cell = (props: { type: string, symbol: string }) => (
-  <div className={`cell ${props.type}`}>{props.symbol}</div>
+type Props = { type: string, symbol: string, visible: boolean };
+
+const Cell = (props: Props) => (
+  <div
+    className={`cell ${props.type} ${props.visible ? 'visible' : 'invisible'}`}
+  >
+    {props.symbol}
+  </div>
 );
 
 export default Cell;

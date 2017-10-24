@@ -11,7 +11,12 @@ const Map = (props: { dungeonMap: Array<Array<cell>> }) => (
     {props.dungeonMap.map((row, rowIndex) => (
       <div className="row" key={rowIndex}>
         {row.map((cellObj, cellIndex) => (
-          <Cell key={cellIndex} type={cellObj.type} symbol={cellObj.symbol} />
+          <Cell
+            key={cellIndex}
+            type={cellObj.type}
+            symbol={cellObj.symbol}
+            visible={cellObj.visible}
+          />
         ))}
       </div>
     ))}

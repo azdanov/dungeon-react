@@ -1,8 +1,8 @@
 // @flow
 
-import { NewDungeon } from 'random-dungeon-generator';
+import Mrpas from 'mrpas';
 import { random, head, keys } from 'lodash';
-
+import { NewDungeon } from 'random-dungeon-generator';
 import type creatureType from './Creature';
 
 export type rooms = {
@@ -17,8 +17,8 @@ export type rooms = {
 export type cell = {
   type: string,
   symbol: string,
-  visibility?: number,
-  lightning?: number,
+  transparent?: boolean,
+  visible: boolean,
   occupiedBy?: creatureType | null,
   bonus?: {},
 };
@@ -44,6 +44,7 @@ export function chooseCellType(cellType: string) {
 export default class Dungeon {
   dungeonPlan: Array<Array<number>>;
   dungeon: dungeon;
+  fovMap: Mrpas;
 
   constructor() {
     this.dungeonPlan = NewDungeon({
@@ -60,6 +61,7 @@ export default class Dungeon {
 
     this.findRooms();
     this.createMap();
+    this.createFovMap();
   }
 
   addPlayer(player: creatureType) {
@@ -96,6 +98,9 @@ export default class Dungeon {
         occupiedBy: creature,
       };
       creature.setLocation(x, y);
+      if (creature.type === 'player') {
+        this.computeFov(x, y);
+      }
     } else {
       const cT = String(this.dungeonPlan[y][x]);
       this.dungeon.map[y][x] = {
@@ -113,11 +118,34 @@ export default class Dungeon {
         const cT = String(cellType);
         if (!this.dungeon.map[iY]) this.dungeon.map[iY] = [];
         this.dungeon.map[iY][iX] = {
-          type: chooseCellType(cT),
           symbol: cT,
+          type: chooseCellType(cT),
+          transparent: cellType !== 1,
+          visible: false,
+          occupiedBy: undefined,
         };
       });
     });
+  }
+
+  createFovMap() {
+    this.fovMap = new Mrpas(
+      50,
+      50,
+      (x, y) => this.dungeon.map[y][x].transparent,
+    );
+  }
+
+  computeFov(playerX: number, playerY: number, visionRadius: number = 4) {
+    this.fovMap.compute(
+      playerX,
+      playerY,
+      visionRadius,
+      (x, y) => this.dungeon.map[y][x].visible,
+      (x, y) => {
+        this.dungeon.map[y][x].visible = true;
+      },
+    );
   }
 
   movePlayer(direction: string) {

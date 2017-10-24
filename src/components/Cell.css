@@ -8,7 +8,7 @@
 
 .wall {
   background: transparent;
-  /* body has same color as walls */
+  /* body element has same color as walls */
   outline: none;
 }
 
@@ -27,4 +27,11 @@
   color: rgba(255, 111, 0, 1);
   line-height: 20px;
   outline: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.invisible {
+  opacity: 0.5;
+  background-color: transparent;
+  color: transparent;
+  outline: transparent;
 }
