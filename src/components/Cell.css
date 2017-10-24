@@ -30,8 +30,24 @@
 }
 
 .invisible {
-  opacity: 0.5;
   background-color: transparent;
   color: transparent;
   outline: transparent;
+}
+
+.visited.room {
+  background: rgba(189, 195, 199, 0.1);
+  outline: 1px solid rgba(97, 97, 97, 0.05);
+  color: transparent;
+}
+.visited.bridge {
+  background: rgba(189, 195, 199, 0.1);
+  outline: 1px solid rgba(97, 97, 97, 0.05);
+  color: transparent;
+}
+.visited.wall {
+  background: transparent;
+  /* body element has same color as walls */
+  outline: none;
+  color: transparent;
 }

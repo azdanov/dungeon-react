@@ -16,6 +16,7 @@ const Map = (props: { dungeonMap: Array<Array<cell>> }) => (
             type={cellObj.type}
             symbol={cellObj.symbol}
             visible={cellObj.visible}
+            visited={cellObj.visited}
           />
         ))}
       </div>

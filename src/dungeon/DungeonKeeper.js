@@ -17,8 +17,9 @@ export type rooms = {
 export type cell = {
   type: string,
   symbol: string,
-  transparent?: boolean,
   visible: boolean,
+  visited?: boolean,
+  transparent?: boolean,
   occupiedBy?: creatureType | null,
   bonus?: {},
 };
@@ -97,10 +98,12 @@ export default class Dungeon {
         symbol,
         occupiedBy: creature,
       };
-      creature.setLocation(x, y);
+
       if (creature.type === 'player') {
+        this.resetVisibility(x, y);
         this.computeFov(x, y);
       }
+      creature.setLocation(x, y);
     } else {
       const cT = String(this.dungeonPlan[y][x]);
       this.dungeon.map[y][x] = {
@@ -110,6 +113,31 @@ export default class Dungeon {
         occupiedBy: null,
       };
     }
+  }
+
+  resetVisibility(x: number, y: number) {
+    // const limit = 5;
+    // let topLeftX = x - limit < 0 ? 0 : x - limit;
+    // let topLeftY = y - limit < 0 ? 0 : y - limit;
+    // let bottomRightX = x + limit < 50 ? x + limit : 49;
+    // let bottomRightY = y + limit < 50 ? y + limit : 49;
+    //
+    // console.log(bottomRightX, bottomRightY);
+    // for (; topLeftY <= bottomRightY; topLeftY++) {
+    //   for (; topLeftX <= bottomRightX; topLeftX++) {
+    //     console.log(topLeftY, bottomRightY);
+    //     this.dungeon.map[topLeftY][topLeftX].visible = false;
+    //   }
+    // }
+
+    this.dungeon.map.forEach(row => {
+      row.forEach(cellObj => {
+        // eslint-disable-next-line no-param-reassign
+        if (cellObj.visible) cellObj.visited = true;
+        // eslint-disable-next-line no-param-reassign
+        cellObj.visible = false;
+      });
+    });
   }
 
   createMap() {
@@ -136,7 +164,7 @@ export default class Dungeon {
     );
   }
 
-  computeFov(playerX: number, playerY: number, visionRadius: number = 4) {
+  computeFov(playerX: number, playerY: number, visionRadius: number = 5) {
     this.fovMap.compute(
       playerX,
       playerY,
