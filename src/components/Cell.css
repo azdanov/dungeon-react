@@ -19,10 +19,11 @@
 
 .bridge {
   background: rgba(189, 195, 199, 1);
+  outline: 1px solid rgba(97, 97, 97, 0.55);
 }
 
 .player {
-  background: rgba(189, 195, 199, 1);
+  background: rgba(76,175,80 ,1);
   color: rgba(255, 111, 0, 1);
   line-height: 20px;
   outline: 1px solid rgba(97, 97, 97, 0.55);

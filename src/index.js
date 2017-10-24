@@ -8,13 +8,7 @@ import 'core-js/es6/set';
 
 import './index.css';
 import Game from './components/Game';
-import DungeonMaster from './dungeon/DungeonMaster';
 // import registerServiceWorker from './registerServiceWorker';
 
-const dungeonMaster = new DungeonMaster();
-
-ReactDOM.render(
-  <Game dungeonMaster={dungeonMaster} />,
-  document.getElementById('root'),
-);
+ReactDOM.render(<Game />, document.getElementById('root'));
 // registerServiceWorker();

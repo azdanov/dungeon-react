@@ -1,31 +1,29 @@
 // @flow
 import React, { Component } from 'react';
-import { throttle } from 'lodash';
+import { throttle, cloneDeep } from 'lodash';
 import Map from './Map';
-import type DungeonMaster from '../dungeon/DungeonMaster';
-import directions from '../dungeon/map/directions';
-
-type Props = {
-  dungeonMaster: DungeonMaster,
-};
+import DungeonMaster from '../dungeon/DungeonMaster';
+import type { cell } from '../dungeon/DungeonKeeper';
+import './Game.css';
 
 type State = {
-  dungeon: Array<Array<number | string>>,
+  dungeonMap: Array<Array<cell>>,
 };
+
+type Props = {};
 
 class Game extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      dungeon: this.props.dungeonMaster.mapKeeper.dungeon,
-    };
+    this.dungeonMaster = new DungeonMaster();
+    this.state = { dungeonMap: this.dungeonMaster.dungeonKeeper.dungeon.map };
   }
 
   componentDidMount() {
     // Flow requires window.document
     window.document.addEventListener(
       'keydown',
-      throttle(this.handleKeyDown, 200, { leading: true, trailing: false }),
+      throttle(this.handleKeyDown, 150, { leading: true, trailing: false }),
       false,
     );
   }
@@ -33,39 +31,39 @@ class Game extends Component<Props, State> {
     // Flow requires window.document
     window.document.removeEventListener(
       'keydown',
-      throttle(this.handleKeyDown, 200, { leading: true, trailing: false }),
+      throttle(this.handleKeyDown, 150, { leading: true, trailing: false }),
       false,
     );
   }
+  dungeonMaster: DungeonMaster;
 
   handleKeyDown = (e: SyntheticKeyboardEvent<>) => {
     e.preventDefault();
-    const { north, south, west, east } = directions;
     const key = e.key || e.which;
     switch (key) {
       case 'w':
       case 'W':
       case 'ArrowUp':
       case 38:
-        this.props.dungeonMaster.movePlayer(north);
+        this.dungeonMaster.movePlayer('up');
         break;
       case 's':
       case 'S':
       case 'ArrowDown':
       case 40:
-        this.props.dungeonMaster.movePlayer(south);
+        this.dungeonMaster.movePlayer('down');
         break;
       case 'a':
       case 'A':
       case 'ArrowLeft':
       case 37:
-        this.props.dungeonMaster.movePlayer(west);
+        this.dungeonMaster.movePlayer('left');
         break;
       case 'd':
       case 'D':
       case 'ArrowRight':
       case 39:
-        this.props.dungeonMaster.movePlayer(east);
+        this.dungeonMaster.movePlayer('right');
         break;
       case 'Enter':
       case 13:
@@ -78,18 +76,20 @@ class Game extends Component<Props, State> {
       default:
         break;
     }
-    this.setState(() => ({
-      dungeon: this.props.dungeonMaster.mapKeeper.dungeon,
-    }));
+    this.setState(() => {
+      const dungeonMap = cloneDeep(
+        this.dungeonMaster.dungeonKeeper.dungeon.map,
+      );
+      return {
+        dungeonMap,
+      };
+    });
   };
 
   render() {
     return (
       <div className="app">
-        <Map
-          dungeonMaster={this.props.dungeonMaster}
-          dungeon={this.state.dungeon}
-        />
+        <Map dungeonMap={this.state.dungeonMap} />
       </div>
     );
   }
