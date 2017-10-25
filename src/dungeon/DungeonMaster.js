@@ -20,8 +20,8 @@ export default class DungeonMaster {
   createEnemies() {
     const enemies = [];
     const totalRooms = Object.keys(this.dungeonKeeper.dungeon.rooms).length;
-
-    for (let i = 0; i < totalRooms; i++) {
+    const delta = random(4);
+    for (let i = 0; i < totalRooms + delta; i++) {
       enemies.push(
         new Creature(
           uniqueId('goblin_'),

@@ -7,7 +7,8 @@ type Props = {
   type: string,
   symbol: string,
   visible: boolean,
-  visited: boolean,
+  // eslint-disable-next-line react/require-default-props
+  visited?: boolean,
 };
 
 const Cell = (props: Props) => (

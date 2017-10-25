@@ -30,6 +30,7 @@ describe('DungeonMaster', () => {
   });
   describe('createEnemies()', () => {
     it('creates an Array', () => {
+      console.log(dm.dungeonKeeper.dungeon.enemies);
       if (dm.dungeonKeeper.dungeon.enemies)
         expect(dm.dungeonKeeper.dungeon.enemies.constructor).toBe(Array);
       else throw new Error('Enemies array not found');

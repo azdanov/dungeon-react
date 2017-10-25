@@ -23,9 +23,15 @@
 }
 
 .player {
-  background: rgba(76,175,80 ,1);
-  color: rgba(255, 111, 0, 1);
+  background: rgba(76, 175, 80, 1);
+  color: rgba(255, 238, 88, 1);
   line-height: 20px;
+  outline: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.enemy {
+  background-color: rgba(255, 23, 68, 1);
+  color: rgba(255, 205, 210, 1);
   outline: 1px solid rgba(97, 97, 97, 0.55);
 }
 
@@ -40,14 +46,22 @@
   outline: 1px solid rgba(97, 97, 97, 0.05);
   color: transparent;
 }
+
 .visited.bridge {
   background: rgba(189, 195, 199, 0.1);
   outline: 1px solid rgba(97, 97, 97, 0.05);
   color: transparent;
 }
+
 .visited.wall {
   background: transparent;
   /* body element has same color as walls */
   outline: none;
   color: transparent;
+}
+
+.visited.enemy {
+  background: rgba(189, 195, 199, 0.1);
+  outline: 1px solid rgba(97, 97, 97, 0.05);
+  color: rgba(255, 205, 210, 0.2);
 }

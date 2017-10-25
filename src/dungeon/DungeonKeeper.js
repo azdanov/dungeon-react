@@ -1,7 +1,7 @@
 // @flow
 
 import Mrpas from 'mrpas';
-import { random, head, keys } from 'lodash';
+import { random, head, tail, sample, keys } from 'lodash';
 import { NewDungeon } from 'random-dungeon-generator';
 import type creatureType from './Creature';
 
@@ -72,6 +72,7 @@ export default class Dungeon {
 
   addEnemies(enemies: Array<creatureType>) {
     this.dungeon.enemies = enemies;
+    this.pickEnemiesLocations(enemies);
   }
 
   pickPlayerLocation(player: creatureType) {
@@ -88,6 +89,26 @@ export default class Dungeon {
     this.setOccupation(player, x, y);
   }
 
+  // TODO: TESTS!
+  pickEnemiesLocations(enemies: Array<creatureType>) {
+    const roomNums = tail(keys(this.dungeon.rooms));
+    const dRooms = this.dungeon.rooms;
+    const eLength = enemies.length;
+    let i = 0;
+    while (i < eLength) {
+      const room = Number.parseInt(sample(roomNums), 10);
+      const x = random(dRooms[room].x, dRooms[room].x + dRooms[room].width - 1);
+      const y = random(
+        dRooms[room].y,
+        dRooms[room].y + dRooms[room].height - 1,
+      );
+      if (!this.isOccupied(x, y)) {
+        this.setOccupation(enemies[i], x, y);
+        i += 1;
+      }
+    }
+  }
+
   setOccupation(creature: ?creatureType, x: number, y: number) {
     if (creature) {
       const symbol = creature.type === 'player' ? 'P' : 'E';
@@ -100,11 +121,13 @@ export default class Dungeon {
       };
 
       if (creature.type === 'player') {
-        this.resetVisibility(x, y);
+        this.resetVisibility(); // TODO: Optimization
+
         this.computeFov(x, y);
       }
       creature.setLocation(x, y);
     } else {
+      // Reset location
       const cT = String(this.dungeonPlan[y][x]);
       this.dungeon.map[y][x] = {
         ...this.dungeon.map[y][x],
@@ -115,7 +138,8 @@ export default class Dungeon {
     }
   }
 
-  resetVisibility(x: number, y: number) {
+  resetVisibility() {
+    // TODO: Possible optimization
     // const limit = 5;
     // let topLeftX = x - limit < 0 ? 0 : x - limit;
     // let topLeftY = y - limit < 0 ? 0 : y - limit;
@@ -164,7 +188,7 @@ export default class Dungeon {
     );
   }
 
-  computeFov(playerX: number, playerY: number, visionRadius: number = 5) {
+  computeFov(playerX: number, playerY: number, visionRadius: number = 4) {
     this.fovMap.compute(
       playerX,
       playerY,
