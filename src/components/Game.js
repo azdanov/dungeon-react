@@ -1,12 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { throttle, cloneDeep } from 'lodash';
+import { throttle } from 'lodash';
 import Map from './Map';
+import UI from './UI';
 import DungeonMaster from '../dungeon/DungeonMaster';
 import type { cell } from '../dungeon/DungeonKeeper';
 import './Game.css';
 
 type State = {
+  log: Array<string>,
+  playerAlive: boolean,
   dungeonMap: Array<Array<cell>>,
 };
 
@@ -16,7 +19,11 @@ class Game extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.dungeonMaster = new DungeonMaster();
-    this.state = { dungeonMap: this.dungeonMaster.dungeonKeeper.dungeon.map };
+    this.state = {
+      log: this.dungeonMaster.log,
+      playerAlive: true,
+      dungeonMap: this.dungeonMaster.dungeonKeeper.dungeon.map,
+    };
   }
 
   componentDidMount() {
@@ -38,7 +45,7 @@ class Game extends Component<Props, State> {
   dungeonMaster: DungeonMaster;
 
   handleKeyDown = (e: SyntheticKeyboardEvent<>) => {
-    e.preventDefault();
+    // e.preventDefault();
     const key = e.key || e.which;
     switch (key) {
       case 'w':
@@ -73,23 +80,56 @@ class Game extends Component<Props, State> {
       case 27:
         console.log('Escape');
         break;
+      case 'r':
+      case 'R':
+        this.dungeonMaster = new DungeonMaster();
+        this.state = {
+          log: [],
+          playerAlive: true,
+          dungeonMap: this.dungeonMaster.dungeonKeeper.dungeon.map,
+        };
+        break;
       default:
         break;
     }
-    this.setState(() => {
-      const dungeonMap = cloneDeep(
-        this.dungeonMaster.dungeonKeeper.dungeon.map,
-      );
-      return {
-        dungeonMap,
-      };
-    });
+    this.setState(() => ({
+      log: this.dungeonMaster.log,
+      playerAlive: this.dungeonMaster.player.health > 0,
+      dungeonMap: this.dungeonMaster.dungeonKeeper.dungeon.map,
+    }));
   };
 
   render() {
+    if (this.state.log[0]) {
+      console.log(this.state.log[1]);
+      console.log(this.state.log[0]);
+    }
+    let divStyle = {
+      transform: `translate(-50%, -50%)`,
+    };
+    if (this.dungeonMaster.dungeonKeeper.dungeon.player) {
+      const { x, y } = this.dungeonMaster.dungeonKeeper.dungeon.player.location;
+      divStyle = {
+        transform: `translate(-${x + x}%, -${y + y}%)`,
+      };
+    }
+    if (this.state.playerAlive)
+      return [
+        <div className="app" style={divStyle}>
+          <Map dungeonMap={this.state.dungeonMap} />
+        </div>,
+        <UI
+          log={this.state.log}
+          health={this.dungeonMaster.player.health}
+          strength={this.dungeonMaster.player.strength}
+          level={this.dungeonMaster.player.level}
+          weapon={this.dungeonMaster.player.weapon}
+        />,
+      ];
     return (
-      <div className="app">
-        <Map dungeonMap={this.state.dungeonMap} />
+      <div className="message">
+        <p>You Died</p>
+        <small>press r to restart</small>
       </div>
     );
   }

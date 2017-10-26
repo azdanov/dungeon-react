@@ -1,7 +1,7 @@
 // @flow
 
 import Mrpas from 'mrpas';
-import { random, head, tail, sample, keys } from 'lodash';
+import { random, head, tail, sample, keys, remove, isEqual } from 'lodash';
 import { NewDungeon } from 'random-dungeon-generator';
 import type creatureType from './Creature';
 
@@ -102,7 +102,7 @@ export default class Dungeon {
         dRooms[room].y,
         dRooms[room].y + dRooms[room].height - 1,
       );
-      if (!this.isOccupied(x, y)) {
+      if (!this.isOccupiedBy(x, y)) {
         this.setOccupation(enemies[i], x, y);
         i += 1;
       }
@@ -188,7 +188,7 @@ export default class Dungeon {
     );
   }
 
-  computeFov(playerX: number, playerY: number, visionRadius: number = 4) {
+  computeFov(playerX: number, playerY: number, visionRadius: number = 5) {
     this.fovMap.compute(
       playerX,
       playerY,
@@ -205,56 +205,65 @@ export default class Dungeon {
     let offsetY = 0;
     let newX;
     let newY;
+    let obstacle = null;
 
-    if (!this.dungeon.player) return;
+    if (!this.dungeon.player) return obstacle;
     const { x, y } = this.dungeon.player.location;
     switch (direction) {
       case 'up':
         offsetY = -1;
         newX = x + offsetX;
         newY = y + offsetY;
-        if (!this.isOccupied(newX, newY) && this.dungeon.player) {
-          this.setOccupation(this.dungeon.player, newX, newY);
-          this.setOccupation(null, x, y);
+        obstacle = this.isOccupiedBy(newX, newY);
+        if (!obstacle) {
+          this.changeOccupation(newX, newY, x, y);
         }
         break;
       case 'down':
         offsetY = 1;
         newX = x + offsetX;
         newY = y + offsetY;
-        if (!this.isOccupied(newX, newY) && this.dungeon.player) {
-          this.setOccupation(this.dungeon.player, newX, newY);
-          this.setOccupation(null, x, y);
+        obstacle = this.isOccupiedBy(newX, newY);
+        if (!obstacle) {
+          this.changeOccupation(newX, newY, x, y);
         }
         break;
       case 'left':
         offsetX = -1;
         newX = x + offsetX;
         newY = y + offsetY;
-        if (!this.isOccupied(newX, newY) && this.dungeon.player) {
-          this.setOccupation(this.dungeon.player, newX, newY);
-          this.setOccupation(null, x, y);
+        obstacle = this.isOccupiedBy(newX, newY);
+        if (!obstacle) {
+          this.changeOccupation(newX, newY, x, y);
         }
         break;
       case 'right':
         offsetX = 1;
         newX = x + offsetX;
         newY = y + offsetY;
-        if (!this.isOccupied(newX, newY) && this.dungeon.player) {
-          this.setOccupation(this.dungeon.player, newX, newY);
-          this.setOccupation(null, x, y);
+        obstacle = this.isOccupiedBy(newX, newY);
+        if (!obstacle) {
+          this.changeOccupation(newX, newY, x, y);
         }
         break;
       default:
         break;
     }
+    return obstacle;
   }
 
-  isOccupied(x: number, y: number) {
-    return Boolean(
-      this.dungeon.map[y][x].occupiedBy ||
-        this.dungeon.map[y][x].type === 'wall',
-    );
+  changeOccupation(newX: number, newY: number, oldX: number, oldY: number) {
+    this.setOccupation(this.dungeon.player, newX, newY);
+    this.setOccupation(null, oldX, oldY);
+  }
+
+  isOccupiedBy(x: number, y: number) {
+    if (this.dungeon.map[y][x].occupiedBy) {
+      return this.dungeon.map[y][x].occupiedBy;
+    } else if (this.dungeon.map[y][x].type === 'wall') {
+      return this.dungeon.map[y][x].type;
+    }
+    return null;
   }
 
   findRooms() {
@@ -319,5 +328,14 @@ export default class Dungeon {
         }
       });
     });
+  }
+
+  removeEnemy(enemyToRemove: creatureType) {
+    this.setOccupation(
+      null,
+      enemyToRemove.location.x,
+      enemyToRemove.location.y,
+    );
+    remove(this.dungeon.enemies, enemy => isEqual(enemy, enemyToRemove));
   }
 }

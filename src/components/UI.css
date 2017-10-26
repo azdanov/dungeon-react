@@ -1,0 +1,38 @@
+.ui {
+  position: absolute;
+  right: 0;
+  top: 20%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 420px
+}
+
+.box {
+  background-color: rgba(224, 224, 224, 1);
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.stats ul:nth-of-type(2) {
+  margin-right: 15px;
+}
+
+
+.weapon {
+  margin-left: 30px;
+}
+
+.box li {
+  margin-top: 5px;
+  padding: 2px;
+}
+
+.log {
+}

@@ -1,33 +1,41 @@
 // @flow
 
-import { uniqueId, random } from 'lodash';
+import Chance from 'chance';
 import Dungeon from './DungeonKeeper';
 import Creature from './Creature';
 
+const chance = new Chance();
+
 export default class DungeonMaster {
   dungeonKeeper: Dungeon;
+  player: Creature;
+  log: Array<string>;
   constructor() {
     this.dungeonKeeper = new Dungeon();
+    this.log = [];
     this.createPlayer();
     this.createEnemies();
+    this.log.unshift('To survive.');
+    this.log.unshift(`Welcome to the dungeons ${this.player.name}!`);
+    this.log.unshift('Level up and Kill the Boss.');
   }
 
   createPlayer() {
-    const player = new Creature('Player', 'player', 100, 10);
-    this.dungeonKeeper.addPlayer(player);
+    this.player = new Creature(chance.name(), 'player');
+    this.dungeonKeeper.addPlayer(this.player);
   }
 
   createEnemies() {
     const enemies = [];
     const totalRooms = Object.keys(this.dungeonKeeper.dungeon.rooms).length;
-    const delta = random(4);
+    const delta = chance.integer({ min: 0, max: 4 });
     for (let i = 0; i < totalRooms + delta; i++) {
       enemies.push(
         new Creature(
-          uniqueId('goblin_'),
+          chance.word(),
           'enemy',
-          random(50, 150),
-          random(5, 15),
+          chance.integer({ min: 50, max: 150 }),
+          chance.integer({ min: 5, max: 15 }),
         ),
       );
     }
@@ -36,21 +44,58 @@ export default class DungeonMaster {
   }
 
   movePlayer(direction: string) {
+    let obstacle;
     switch (direction) {
       case 'up':
-        this.dungeonKeeper.movePlayer('up');
+        obstacle = this.dungeonKeeper.movePlayer('up');
         break;
       case 'down':
-        this.dungeonKeeper.movePlayer('down');
+        obstacle = this.dungeonKeeper.movePlayer('down');
         break;
       case 'left':
-        this.dungeonKeeper.movePlayer('left');
+        obstacle = this.dungeonKeeper.movePlayer('left');
         break;
       case 'right':
-        this.dungeonKeeper.movePlayer('right');
+        obstacle = this.dungeonKeeper.movePlayer('right');
         break;
       default:
         break;
     }
+    if (obstacle) {
+      this.interactWith(direction, obstacle);
+    }
+  }
+
+  interactWith(direction: string, obstacle: Creature | string) {
+    if (obstacle instanceof Creature) {
+      const player = this.player.attack(obstacle);
+      this.createMessage(player);
+      let enemy;
+
+      if (player.opponentDead) {
+        this.dungeonKeeper.removeEnemy(obstacle);
+      } else {
+        enemy = obstacle.attack(this.player);
+        this.createMessage(enemy);
+      }
+    }
+  }
+
+  createMessage(outcome: {
+    damage: number,
+    opponentDead: boolean,
+    levelUp: boolean,
+    opponent: Creature,
+    who: Creature,
+  }) {
+    let message = `${outcome.who.name} attacked ${outcome.opponent
+      .name} for ${outcome.damage} damage.`;
+    if (outcome.opponentDead) {
+      message += ' Killed his opponent.';
+    }
+    if (outcome.levelUp) {
+      message += ' And received a level up!';
+    }
+    this.log.unshift(message);
   }
 }

@@ -2,5 +2,28 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+}
+
+.message {
+  height: 100vh;
+  display: flex;
+  justify-content:center;
+  align-content:center;
+  flex-direction:column;
+}
+
+.message p {
+  text-transform: uppercase;
+  color: rgba(239, 83, 80, 1);
+  font-family: serif;
+  text-align: center;
+  font-size: 6rem;
+  letter-spacing: 2px;
+}
+
+small {
+  text-align: center;
+  color: rgba(239, 83, 80, 1);
+  margin-top: 10px;
+  font-size: 1.5rem;
 }

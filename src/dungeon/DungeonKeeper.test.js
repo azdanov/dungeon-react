@@ -60,11 +60,44 @@ describe('Dungeon', () => {
     });
   });
 
-  describe('isOccupied()', () => {
-    it('is occupied', () => {
+  describe('changeOccupation()', () => {
+    let oldX;
+    let oldY;
+    let newX;
+    let newY;
+    beforeAll(() => {
+      d.addPlayer(new Creature());
+      if (!d.dungeon.player) throw new Error();
+      oldX = d.dungeon.player.location.x;
+      oldY = d.dungeon.player.location.y;
+
+      d.movePlayer('down');
+
+      if (!d.dungeon.player) throw new Error();
+      newX = d.dungeon.player.location.x;
+      newY = d.dungeon.player.location.y;
+    });
+    it('set new location', () => {
+      d.changeOccupation(oldX, oldY, newX, newY);
+      if (!d.dungeon.player) throw new Error();
+      expect(d.dungeon.player.location).toHaveProperty('x', oldX);
+      if (!d.dungeon.player) throw new Error();
+      expect(d.dungeon.player.location).toHaveProperty('y', oldY);
+    });
+    it('reset old location', () => {
+      d.changeOccupation(oldX, oldY, newX, newY);
+      expect(d.dungeon.map[newY][newX].occupiedBy).toBeNull();
+    });
+  });
+
+  describe('isOccupiedBy()', () => {
+    it('is occupied by creature', () => {
       if (!dm.dungeonKeeper.dungeon.player) throw new Error();
       const { x, y } = dm.dungeonKeeper.dungeon.player.location;
-      expect(dm.dungeonKeeper.isOccupied(x, y)).toBeTruthy();
+      expect(dm.dungeonKeeper.isOccupiedBy(x, y)).toBeInstanceOf(Creature);
+    });
+    it('is occupied by a wall', () => {
+      expect(dm.dungeonKeeper.isOccupiedBy(0, 0)).toBe('wall');
     });
   });
 

@@ -11,13 +11,26 @@ type Props = {
   visited?: boolean,
 };
 
+function chooseSymbol(symbol: string) {
+  switch (symbol) {
+    case 'P':
+      return '🙂';
+    case 'E':
+      return '😈';
+    case '1':
+      return '▓';
+    default:
+      return '╬';
+  }
+}
+
 const Cell = (props: Props) => (
   <div
     className={`cell ${props.type} ${props.visible
       ? 'visible'
       : `${props.visited ? 'visited' : 'invisible'}`}`}
   >
-    {props.symbol}
+    {chooseSymbol(props.symbol)}
   </div>
 );
 
