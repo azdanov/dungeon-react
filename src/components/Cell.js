@@ -16,7 +16,7 @@ function chooseSymbol(symbol: string) {
     case 'P':
       return '🙂';
     case 'E':
-      return '😈';
+      return Math.round(Math.random()) ? '😈' : '👿';
     case '1':
       return '▓';
     default:

@@ -114,6 +114,9 @@ const UI = (props: {
   health: number,
   strength: number,
   level: number,
+  experience: number,
+  levelThreshold: number,
+  zone: number,
   weapon: { id: number, power: number },
 }) => (
   <div className="ui">
@@ -133,15 +136,18 @@ const UI = (props: {
         </li>
         <li>
           <span role="img" aria-label="level arrow">
-            🔆
+            🔺
           </span>{' '}
           Level: {props.level}
+          <progress value={props.experience} max={props.levelThreshold}>
+            {props.experience} %
+          </progress>
         </li>
         <li>
           <span role="img" aria-label="zone symbol">
-            🔷
+            🔹
           </span>{' '}
-          Zone: 1
+          Zone: {props.zone}
         </li>
       </ul>
       <ul>
@@ -152,7 +158,7 @@ const UI = (props: {
           Inventory:{' '}
           <ul className="weapon">
             {pickIcon(props.weapon.id)}
-            <li>Attack Power {props.weapon.power}</li>
+            <li>Damage {props.weapon.power}</li>
           </ul>
         </li>
       </ul>

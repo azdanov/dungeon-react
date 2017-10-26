@@ -44,12 +44,11 @@ class Creature {
 
   attack(opponent: Creature) {
     const damage = chance.integer({
-      min: this.strength,
+      min: this.strength / 2,
       max: this.weapon.power + this.strength,
     });
 
     opponent.receiveDamage(damage);
-    this.receiveExperience(damage);
     return {
       who: this,
       opponent,
@@ -68,12 +67,20 @@ class Creature {
   }
 
   receiveExperience(experience: number) {
-    this.experience += chance.integer({ min: 0, max: experience });
-    if (Math.floor(this.experience / 100) > this.level) {
+    this.experience += chance.integer({ min: experience / 2, max: experience });
+    if (this.experience > this.levelThreshold) {
       this.level += 1;
-      this.health = this.initialHealth + chance.integer({ min: 10, max: 30 });
-      this.strength += chance.integer({ min: 5, max: 15 });
-      this.experience = 0;
+      this.health =
+        this.initialHealth +
+        chance.integer({
+          min: 10 + this.level / 2,
+          max: 30 + this.level / 2,
+        });
+      this.strength += chance.integer({
+        min: 5 + this.level / 2,
+        max: 15 + this.level / 2,
+      });
+      this.experience %= this.levelThreshold;
       this.levelThreshold *= 1.5;
       return true;
     }

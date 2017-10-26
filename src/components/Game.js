@@ -27,7 +27,6 @@ class Game extends Component<Props, State> {
   }
 
   componentDidMount() {
-    // Flow requires window.document
     window.document.addEventListener(
       'keydown',
       throttle(this.handleKeyDown, 150, { leading: true, trailing: false }),
@@ -35,7 +34,6 @@ class Game extends Component<Props, State> {
     );
   }
   componentWillUnmount() {
-    // Flow requires window.document
     window.document.removeEventListener(
       'keydown',
       throttle(this.handleKeyDown, 150, { leading: true, trailing: false }),
@@ -45,7 +43,6 @@ class Game extends Component<Props, State> {
   dungeonMaster: DungeonMaster;
 
   handleKeyDown = (e: SyntheticKeyboardEvent<>) => {
-    // e.preventDefault();
     const key = e.key || e.which;
     switch (key) {
       case 'w':
@@ -100,10 +97,6 @@ class Game extends Component<Props, State> {
   };
 
   render() {
-    if (this.state.log[0]) {
-      console.log(this.state.log[1]);
-      console.log(this.state.log[0]);
-    }
     let divStyle = {
       transform: `translate(-50%, -50%)`,
     };
@@ -115,14 +108,18 @@ class Game extends Component<Props, State> {
     }
     if (this.state.playerAlive)
       return [
-        <div className="app" style={divStyle}>
+        <div className="app" style={divStyle} key="map">
           <Map dungeonMap={this.state.dungeonMap} />
         </div>,
         <UI
+          key="ui"
           log={this.state.log}
           health={this.dungeonMaster.player.health}
           strength={this.dungeonMaster.player.strength}
           level={this.dungeonMaster.player.level}
+          experience={this.dungeonMaster.player.experience}
+          levelThreshold={this.dungeonMaster.player.levelThreshold}
+          zone={this.dungeonMaster.zone}
           weapon={this.dungeonMaster.player.weapon}
         />,
       ];

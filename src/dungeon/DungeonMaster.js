@@ -1,8 +1,8 @@
 // @flow
 
 import Chance from 'chance';
-import Dungeon from './DungeonKeeper';
 import Creature from './Creature';
+import Dungeon from './DungeonKeeper';
 
 const chance = new Chance();
 
@@ -10,12 +10,15 @@ export default class DungeonMaster {
   dungeonKeeper: Dungeon;
   player: Creature;
   log: Array<string>;
+  zone: number;
+
   constructor() {
     this.dungeonKeeper = new Dungeon();
     this.log = [];
+    this.zone = 0;
     this.createPlayer();
     this.createEnemies();
-    this.log.unshift('To survive.');
+    this.log.unshift('To survive...');
     this.log.unshift(`Welcome to the dungeons ${this.player.name}!`);
     this.log.unshift('Level up and Kill the Boss.');
   }
@@ -28,14 +31,14 @@ export default class DungeonMaster {
   createEnemies() {
     const enemies = [];
     const totalRooms = Object.keys(this.dungeonKeeper.dungeon.rooms).length;
-    const delta = chance.integer({ min: 0, max: 4 });
+    const delta = chance.integer({ min: 0, max: 8 });
     for (let i = 0; i < totalRooms + delta; i++) {
       enemies.push(
         new Creature(
           chance.word(),
           'enemy',
-          chance.integer({ min: 50, max: 150 }),
-          chance.integer({ min: 5, max: 15 }),
+          chance.integer({ min: 50, max: 130 }),
+          chance.integer({ min: 5, max: 10 }),
         ),
       );
     }
@@ -71,7 +74,6 @@ export default class DungeonMaster {
       const player = this.player.attack(obstacle);
       this.createMessage(player);
       let enemy;
-
       if (player.opponentDead) {
         this.dungeonKeeper.removeEnemy(obstacle);
       } else {
@@ -79,6 +81,7 @@ export default class DungeonMaster {
         this.createMessage(enemy);
       }
     }
+    console.log(this.player.experience);
   }
 
   createMessage(outcome: {
