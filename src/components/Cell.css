@@ -38,6 +38,26 @@
   border: 1px solid rgba(97, 97, 97, 0.55);
 }
 
+.health {
+  background: rgba(189, 195, 199, 1);
+  border: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.strength {
+  background: rgba(189, 195, 199, 1);
+  border: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.weapon {
+  background: rgba(189, 195, 199, 1);
+  border: 1px solid rgba(97, 97, 97, 0.55);
+}
+
+.next_level {
+  background: rgba(97, 97, 97, 0.55);
+  border: 1px solid rgba(97, 97, 97, 0.55);
+}
+
 .invisible {
   background-color: transparent;
   color: transparent;
@@ -63,6 +83,30 @@
 }
 
 .visited.enemy {
+  background: rgba(189, 195, 199, 0.03);
+  color: rgba(255, 205, 210, 0.1);
+  border: 1px solid rgba(97, 97, 97, 0.03);
+}
+
+.visited.strength {
+  background: rgba(189, 195, 199, 0.03);
+  color: rgba(255, 205, 210, 0.1);
+  border: 1px solid rgba(97, 97, 97, 0.03);
+}
+
+.visited.weapon {
+  background: rgba(189, 195, 199, 0.03);
+  color: rgba(255, 205, 210, 0.1);
+  border: 1px solid rgba(97, 97, 97, 0.03);
+}
+
+.visited.next_level {
+  background: rgba(189, 195, 199, 0.03);
+  color: rgba(255, 205, 210, 0.1);
+  border: 1px solid rgba(97, 97, 97, 0.03);
+}
+
+.visited.health {
   background: rgba(189, 195, 199, 0.03);
   color: rgba(255, 205, 210, 0.1);
   border: 1px solid rgba(97, 97, 97, 0.03);

@@ -69,14 +69,6 @@ class Game extends Component<Props, State> {
       case 39:
         this.dungeonMaster.movePlayer('right');
         break;
-      case 'Enter':
-      case 13:
-        console.log('Enter');
-        break;
-      case 'Escape':
-      case 27:
-        console.log('Escape');
-        break;
       case 'r':
       case 'R':
         this.dungeonMaster = new DungeonMaster();

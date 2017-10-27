@@ -16,9 +16,17 @@ function chooseSymbol(symbol: string) {
     case 'P':
       return '🙂';
     case 'E':
-      return Math.round(Math.random()) ? '😈' : '👿';
+      return Math.random() < 0.5 ? '😈' : '👿';
     case '1':
       return '▓';
+    case 'H':
+      return '📦';
+    case 'S':
+      return '📦';
+    case 'W':
+      return '📦';
+    case 'N':
+      return '📶';
     default:
       return '╬';
   }

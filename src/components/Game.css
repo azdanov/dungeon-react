@@ -7,9 +7,9 @@
 .message {
   height: 100vh;
   display: flex;
-  justify-content:center;
-  align-content:center;
-  flex-direction:column;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
 }
 
 .message p {

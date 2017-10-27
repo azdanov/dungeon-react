@@ -3,7 +3,8 @@
 import Mrpas from 'mrpas';
 import { random, head, tail, sample, keys, remove, isEqual } from 'lodash';
 import { NewDungeon } from 'random-dungeon-generator';
-import type creatureType from './Creature';
+import Creature from './Creature';
+import Item from './Item';
 
 export type rooms = {
   [number]: {
@@ -18,17 +19,18 @@ export type cell = {
   type: string,
   symbol: string,
   visible: boolean,
+  occupiedBy: Creature | Item | null,
   visited?: boolean,
   transparent?: boolean,
-  occupiedBy?: creatureType | null,
   bonus?: {},
 };
 
 export type dungeon = {
   rooms: rooms,
   map: Array<Array<cell>>,
-  player?: creatureType,
-  enemies?: Array<creatureType>,
+  player: ?Creature,
+  enemies?: Array<Creature>,
+  items?: Array<Item>,
 };
 
 export const cellTypes = {
@@ -56,6 +58,7 @@ export default class Dungeon {
     });
 
     this.dungeon = {
+      player: null,
       rooms: {},
       map: [],
     };
@@ -65,17 +68,22 @@ export default class Dungeon {
     this.createFovMap();
   }
 
-  addPlayer(player: creatureType) {
+  addPlayer(player: Creature) {
     this.dungeon.player = player;
     this.pickPlayerLocation(player);
   }
 
-  addEnemies(enemies: Array<creatureType>) {
+  addEnemies(enemies: Array<Creature>) {
     this.dungeon.enemies = enemies;
-    this.pickEnemiesLocations(enemies);
+    this.pickLocations(enemies);
   }
 
-  pickPlayerLocation(player: creatureType) {
+  addItems(items: Array<Item>) {
+    this.dungeon.items = items;
+    this.pickLocations(items);
+  }
+
+  pickPlayerLocation(player: Creature) {
     const dRooms = this.dungeon.rooms;
     const firstRoom = Number.parseInt(head(keys(dRooms)), 10);
     const x = random(
@@ -90,42 +98,49 @@ export default class Dungeon {
   }
 
   // TODO: TESTS!
-  pickEnemiesLocations(enemies: Array<creatureType>) {
+  pickLocations(objects: Array<Creature> | Array<Item>) {
     const roomNums = tail(keys(this.dungeon.rooms));
-    const dRooms = this.dungeon.rooms;
-    const eLength = enemies.length;
+    const dr = this.dungeon.rooms;
+    const len = objects.length;
     let i = 0;
-    while (i < eLength) {
+    while (i < len) {
       const room = Number.parseInt(sample(roomNums), 10);
-      const x = random(dRooms[room].x, dRooms[room].x + dRooms[room].width - 1);
-      const y = random(
-        dRooms[room].y,
-        dRooms[room].y + dRooms[room].height - 1,
-      );
+      const x = random(dr[room].x, dr[room].x + dr[room].width - 1);
+      const y = random(dr[room].y, dr[room].y + dr[room].height - 1);
       if (!this.isOccupiedBy(x, y)) {
-        this.setOccupation(enemies[i], x, y);
+        this.setOccupation(objects[i], x, y);
         i += 1;
       }
     }
   }
 
-  setOccupation(creature: ?creatureType, x: number, y: number) {
-    if (creature) {
-      const symbol = creature.type === 'player' ? 'P' : 'E';
-      const { type } = creature;
+  // TODO: TESTS!
+  setOccupation(object: Creature | Item | null, x: number, y: number) {
+    if (object instanceof Creature) {
+      const symbol = object.type.charAt(0).toUpperCase();
+      const { type } = object;
       this.dungeon.map[y][x] = {
         ...this.dungeon.map[y][x],
         type,
         symbol,
-        occupiedBy: creature,
+        occupiedBy: object,
       };
 
-      if (creature.type === 'player') {
+      if (object.type === 'player') {
         this.resetVisibility(); // TODO: Optimization
 
         this.computeFov(x, y);
       }
-      creature.setLocation(x, y);
+      object.setLocation(x, y);
+    } else if (object instanceof Item) {
+      const symbol = object.type.charAt(0).toUpperCase();
+      const { type } = object;
+      this.dungeon.map[y][x] = {
+        ...this.dungeon.map[y][x],
+        type,
+        symbol,
+        occupiedBy: object,
+      };
     } else {
       // Reset location
       const cT = String(this.dungeonPlan[y][x]);
@@ -174,7 +189,7 @@ export default class Dungeon {
           type: chooseCellType(cT),
           transparent: cellType !== 1,
           visible: false,
-          occupiedBy: undefined,
+          occupiedBy: null,
         };
       });
     });
@@ -217,6 +232,8 @@ export default class Dungeon {
         obstacle = this.isOccupiedBy(newX, newY);
         if (!obstacle) {
           this.changeOccupation(newX, newY, x, y);
+        } else if (obstacle instanceof Item) {
+          this.setOccupation(null, newX, newY);
         }
         break;
       case 'down':
@@ -226,6 +243,8 @@ export default class Dungeon {
         obstacle = this.isOccupiedBy(newX, newY);
         if (!obstacle) {
           this.changeOccupation(newX, newY, x, y);
+        } else if (obstacle instanceof Item) {
+          this.setOccupation(null, newX, newY);
         }
         break;
       case 'left':
@@ -235,6 +254,8 @@ export default class Dungeon {
         obstacle = this.isOccupiedBy(newX, newY);
         if (!obstacle) {
           this.changeOccupation(newX, newY, x, y);
+        } else if (obstacle instanceof Item) {
+          this.setOccupation(null, newX, newY);
         }
         break;
       case 'right':
@@ -244,6 +265,8 @@ export default class Dungeon {
         obstacle = this.isOccupiedBy(newX, newY);
         if (!obstacle) {
           this.changeOccupation(newX, newY, x, y);
+        } else if (obstacle instanceof Item) {
+          this.setOccupation(null, newX, newY);
         }
         break;
       default:
@@ -253,8 +276,10 @@ export default class Dungeon {
   }
 
   changeOccupation(newX: number, newY: number, oldX: number, oldY: number) {
-    this.setOccupation(this.dungeon.player, newX, newY);
-    this.setOccupation(null, oldX, oldY);
+    if (this.dungeon.player instanceof Creature) {
+      this.setOccupation(this.dungeon.player, newX, newY);
+      this.setOccupation(null, oldX, oldY);
+    }
   }
 
   isOccupiedBy(x: number, y: number) {
@@ -330,7 +355,7 @@ export default class Dungeon {
     });
   }
 
-  removeEnemy(enemyToRemove: creatureType) {
+  removeEnemy(enemyToRemove: Creature) {
     this.setOccupation(
       null,
       enemyToRemove.location.x,

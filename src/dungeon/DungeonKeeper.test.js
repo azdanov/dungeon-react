@@ -33,7 +33,7 @@ describe('Dungeon', () => {
     d = new Dungeon();
   });
 
-  it('is an instanceof Dungeon', () => {
+  it('is an instanceof DungeonKeeper', () => {
     expect(d).toBeInstanceOf(Dungeon);
   });
   it('NewDungeon is called', () => {

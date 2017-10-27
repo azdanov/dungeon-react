@@ -76,6 +76,7 @@ class Creature {
           min: 10 + this.level / 2,
           max: 30 + this.level / 2,
         });
+      this.initialHealth = this.health;
       this.strength += chance.integer({
         min: 5 + this.level / 2,
         max: 15 + this.level / 2,

@@ -1,10 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { configure, shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { createSerializer } from 'enzyme-to-json';
+
 import Map from './Map';
 
+configure({ adapter: new Adapter() });
+
+expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
+
 describe('Map', () => {
-  xit('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Map />, div);
+  it('renders without crashing', () => {
+    const wrapper = shallow(<Map dungeonMap={[]} />);
+
+    expect(wrapper).toMatchSnapshot();
   });
 });

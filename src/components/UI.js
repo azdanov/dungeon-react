@@ -165,10 +165,10 @@ const UI = (props: {
     </div>
     <div className="box">
       <ul className="log">
-        <li>{props.log[1]}</li>
-        <li>{props.log[0]}</li>
-        <li>{props.log[3]}</li>
-        <li>{props.log[2]}</li>
+        <li>{props.log[props.log.length - 1]}</li>
+        <li>{props.log[props.log.length - 2]}</li>
+        <li>{props.log[props.log.length - 3]}</li>
+        <li>{props.log[props.log.length - 4]}</li>
       </ul>
     </div>
   </div>
