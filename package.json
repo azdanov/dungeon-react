@@ -5,15 +5,13 @@
   "dependencies": {
     "chance": "^1.0.12",
     "core-js": "^2.5.1",
-    "easystarjs": "^0.4.1",
     "enzyme": "^3.1.0",
     "lodash": "^4.17.4",
     "mrpas": "^1.2.1",
     "random-dungeon-generator": "^1.0.32",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14",
-    "wally-fov": "^0.1.1"
+    "react-scripts": "1.0.14"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -2051,12 +2051,6 @@ duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
-easystarjs@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/easystarjs/-/easystarjs-0.4.1.tgz#08dc1fb8404ee5bfcbea36127397175e5c82011e"
-  dependencies:
-    heap "0.2.6"
-
 ecc-jsbn@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
@@ -3183,10 +3177,6 @@ hawk@~6.0.2:
 he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
-
-heap@0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/heap/-/heap-0.2.6.tgz#087e1f10b046932fc8594dd9e6d378afc9d1e5ac"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -6712,10 +6702,6 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
-
-wally-fov@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/wally-fov/-/wally-fov-0.1.1.tgz#8793e699ba4c0ea399833055e48cca40936c8248"
 
 watch@~0.10.0:
   version "0.10.0"

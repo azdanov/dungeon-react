@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI renders correctly 1`] = `
+<div
+  className="ui"
+>
+  <div
+    className="box stats"
+  >
+    <ul>
+      <li>
+        <span
+          aria-label="red heart"
+          role="img"
+        >
+          ❤️
+        </span>
+         
+        Health: 
+        100
+      </li>
+      <li>
+        <span
+          aria-label="curled biceps"
+          role="img"
+        >
+          💪
+        </span>
+         
+        Strength: 
+        10
+      </li>
+      <li>
+        <span
+          aria-label="level arrow"
+          role="img"
+        >
+          🔺
+        </span>
+         
+        Level: 
+        1
+        <progress
+          max={120}
+          value={50}
+        >
+          50
+           %
+        </progress>
+      </li>
+      <li>
+        <span
+          aria-label="zone symbol"
+          role="img"
+        >
+          🔹
+        </span>
+         
+        Zone: 
+        1
+      </li>
+    </ul>
+    <ul>
+      <li
+        className="inventory"
+      >
+        <span
+          aria-label="backpack"
+          role="img"
+        >
+          🎒
+        </span>
+         
+        Inventory:
+         
+        <ul
+          className="weapon"
+        >
+          <li>
+            Bomb 
+             
+            <span
+              aria-label="bomb"
+              role="img"
+            >
+              💣
+            </span>
+          </li>
+          <li>
+            Damage 
+            10
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div
+    className="box"
+  >
+    <ul
+      className="log"
+    >
+      <li>
+        Message 2
+      </li>
+      <li>
+        Message 1
+      </li>
+      <li>
+        Message 4
+      </li>
+      <li>
+        Message 3
+      </li>
+    </ul>
+  </div>
+</div>
+`;
