@@ -27,3 +27,11 @@ small {
   margin-top: 10px;
   font-size: 1.5rem;
 }
+
+.victory p {
+  color: rgba(253, 216, 53, 1);
+}
+
+.victory small {
+  color: rgba(253,216,53 ,1);
+}

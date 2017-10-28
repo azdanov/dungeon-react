@@ -1,53 +1,38 @@
 .cell {
   background: rgba(97, 97, 97, 0.4);
-  height: 1.5em;
   border: 1px solid rgba(97, 97, 97, 1);
-  text-align: center;
+  height: 1.5em;
   line-height: 1.5em;
+  text-align: center;
   width: 1.5em;
 }
 
 .wall {
   background-color: rgba(121, 85, 72, 1);
-  /* body element has same color as walls */
-  color: rgba(189, 195, 199, 0.05);
   border: 1px solid rgba(93, 64, 55, 0.6);
+  color: rgba(189, 195, 199, 0.05);
 }
 
-.room {
-  background: rgba(189, 195, 199, 1);
-  color: rgba(55, 71, 79, 0.05);
-  border: 1px solid rgba(97, 97, 97, 0.55);
-}
-
+.room,
 .bridge {
-  background: rgba(189, 195, 199, 1);
   color: rgba(55, 71, 79, 0.05);
-  border: 1px solid rgba(97, 97, 97, 0.55);
 }
 
 .player {
-  background: rgba(189, 195, 199, 1);
   color: rgba(255, 238, 88, 1);
-  border: 1px solid rgba(97, 97, 97, 0.55);
 }
 
 .enemy {
-  background: rgba(189, 195, 199, 1);
   color: rgba(255, 205, 210, 1);
-  border: 1px solid rgba(97, 97, 97, 0.55);
 }
 
-.health {
-  background: rgba(189, 195, 199, 1);
-  border: 1px solid rgba(97, 97, 97, 0.55);
-}
-
-.strength {
-  background: rgba(189, 195, 199, 1);
-  border: 1px solid rgba(97, 97, 97, 0.55);
-}
-
+.boss,
+.room,
+.bridge,
+.player,
+.enemy,
+.health,
+.strength,
 .weapon {
   background: rgba(189, 195, 199, 1);
   border: 1px solid rgba(97, 97, 97, 0.55);
@@ -60,54 +45,30 @@
 
 .invisible {
   background-color: transparent;
-  color: transparent;
   border: transparent;
-}
-
-.visited.room {
-  background: rgba(189, 195, 199, 0.03);
   color: transparent;
-  border: 1px solid rgba(97, 97, 97, 0.03);
-}
-
-.visited.bridge {
-  background: rgba(189, 195, 199, 0.03);
-  color: transparent;
-  border: 1px solid rgba(97, 97, 97, 0.03);
 }
 
 .visited.wall {
   background: transparent;
-  color: transparent;
   border: none;
+  color: transparent;
 }
 
-.visited.enemy {
-  background: rgba(189, 195, 199, 0.03);
-  color: rgba(255, 205, 210, 0.1);
-  border: 1px solid rgba(97, 97, 97, 0.03);
-}
-
-.visited.strength {
-  background: rgba(189, 195, 199, 0.03);
-  color: rgba(255, 205, 210, 0.1);
-  border: 1px solid rgba(97, 97, 97, 0.03);
-}
-
-.visited.weapon {
-  background: rgba(189, 195, 199, 0.03);
-  color: rgba(255, 205, 210, 0.1);
-  border: 1px solid rgba(97, 97, 97, 0.03);
-}
-
-.visited.next_level {
-  background: rgba(189, 195, 199, 0.03);
-  color: rgba(255, 205, 210, 0.1);
-  border: 1px solid rgba(97, 97, 97, 0.03);
-}
-
+.visited.boss,
+.visited.room,
+.visited.bridge,
+.visited.enemy,
+.visited.strength,
+.visited.weapon,
+.visited.next_level,
 .visited.health {
   background: rgba(189, 195, 199, 0.03);
-  color: rgba(255, 205, 210, 0.1);
   border: 1px solid rgba(97, 97, 97, 0.03);
+  color: rgba(255, 205, 210, 0.1);
+}
+
+.visited.bridge,
+.visited.room {
+  color: transparent;
 }

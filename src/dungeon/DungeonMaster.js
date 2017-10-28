@@ -13,11 +13,13 @@ export default class DungeonMaster {
   player: Creature;
   log: Array<string>;
   zone: number;
+  gameOver: boolean;
 
   constructor() {
     this.dungeonKeeper = new DungeonKeeper();
     this.log = [];
     this.zone = 1;
+    this.gameOver = false;
     this.createPlayer();
     this.createEnemies();
     this.createItems();
@@ -28,8 +30,12 @@ export default class DungeonMaster {
   }
 
   createPlayer(player?: Creature) {
-    this.player = new Creature(chance.name(), 'player');
-    this.dungeonKeeper.addPlayer(player || this.player);
+    if (player) {
+      this.dungeonKeeper.addPlayer(player);
+    } else {
+      this.player = new Creature(chance.name(), 'player');
+      this.dungeonKeeper.addPlayer(this.player);
+    }
   }
 
   createEnemies() {
@@ -43,6 +49,17 @@ export default class DungeonMaster {
           'enemy',
           chance.integer({ min: 50 + delta, max: 130 + delta }),
           chance.integer({ min: 5 + delta, max: (10 + delta) * this.zone }),
+        ),
+      );
+    }
+
+    if (this.zone === 3) {
+      enemies.push(
+        new Creature(
+          chance.word(),
+          'boss',
+          chance.integer({ min: 200 + delta, max: 500 + delta }),
+          chance.integer({ min: 50 + delta, max: (200 + delta) * this.zone }),
         ),
       );
     }
@@ -63,7 +80,7 @@ export default class DungeonMaster {
       items.push(new Item('weapon'));
     }
 
-    items.push(new Item('next_level'));
+    if (this.zone !== 3) items.push(new Item('next_level'));
 
     this.dungeonKeeper.addItems(items);
   }
@@ -98,6 +115,9 @@ export default class DungeonMaster {
       let enemy;
       if (player.opponentDead) {
         this.dungeonKeeper.removeEnemy(obstacle);
+        if (obstacle.type === 'boss') {
+          this.gameOver = true;
+        }
       } else {
         enemy = obstacle.attack(this.player);
         this.createMessage(enemy);
@@ -166,7 +186,7 @@ export default class DungeonMaster {
           break;
         case 'weapon':
           message = `${outcome.who
-            .name} has found a ${type} weapon that added ${amount} points to the weapon.`;
+            .name} has found a ${type} that added ${amount} points to the weapon power.`;
           break;
         default:
           break;

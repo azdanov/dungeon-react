@@ -158,7 +158,7 @@ const UI = (props: {
           Inventory:{' '}
           <ul className="weapon">
             {pickIcon(props.weapon.id)}
-            <li>Damage {props.weapon.power}</li>
+            <li>Damage: {props.weapon.power}</li>
           </ul>
         </li>
       </ul>

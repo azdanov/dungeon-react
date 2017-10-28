@@ -2,10 +2,12 @@
   "name": "dungeon-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://azdanov.js.org/dungeon-react",
   "dependencies": {
     "chance": "^1.0.12",
     "core-js": "^2.5.1",
     "enzyme": "^3.1.0",
+    "gh-pages": "^1.0.0",
     "lodash": "^4.17.4",
     "mrpas": "^1.2.1",
     "random-dungeon-generator": "^1.0.32",
@@ -14,6 +16,8 @@
     "react-scripts": "1.0.14"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -35,8 +39,6 @@
     "react-test-renderer": "16"
   },
   "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   }
 }

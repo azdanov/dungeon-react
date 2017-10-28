@@ -15,6 +15,8 @@ function chooseSymbol(symbol: string) {
   switch (symbol) {
     case 'P':
       return '🙂';
+    case 'B':
+      return '👹';
     case 'E':
       return Math.random() < 0.5 ? '😈' : '👿';
     case '1':
